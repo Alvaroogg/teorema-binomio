@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoría del Binomio</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- KaTeX (Matemáticas) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Iconos (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-stone-50 text-stone-900 min-h-screen flex flex-col md:flex-row">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-72 bg-white border-r border-stone-200 p-6 flex flex-col gap-8 z-10 shrink-0">
+        <div class="flex items-center gap-3 px-2">
+            <div class="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center text-white shadow-inner">
+                <i data-lucide="calculator"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-stone-900 leading-tight">Binomio</h1>
+                <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">Teoría & Práctica</p>
+            </div>
+        </div>
+
+        <nav class="flex flex-col gap-2" id="nav-menu">
+            <button id="nav-portada" onclick="showSection('portada')"
+                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-stone-900 text-white shadow-lg shadow-stone-200">
+                <i data-lucide="users" class="w-5 h-5 text-emerald-400"></i>
+                <span class="font-medium text-sm tracking-tight uppercase">Portada</span>
+            </button>
+            <button id="nav-introduccion" onclick="showSection('introduccion')"
+                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-stone-500 hover:bg-stone-200 hover:text-stone-900">
+                <i data-lucide="history" class="w-5 h-5"></i>
+                <span class="font-medium text-sm tracking-tight uppercase">Introducción</span>
+            </button>
+            <button id="nav-teoria" onclick="showSection('teoria')"
+                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-stone-500 hover:bg-stone-200 hover:text-stone-900">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
+                <span class="font-medium text-sm tracking-tight uppercase">Teoría</span>
+            </button>
+            <button id="nav-practica" onclick="showSection('practica')"
+                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-stone-500 hover:bg-stone-200 hover:text-stone-900">
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                <span class="font-medium text-sm tracking-tight uppercase">Práctica</span>
+            </button>
+            <button id="nav-ejercicios" onclick="showSection('ejercicios')"
+                class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-stone-500 hover:bg-stone-200 hover:text-stone-900">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                <span class="font-medium text-sm tracking-tight uppercase">Ejercicios</span>
+            </button>
+        </nav>
+
+        <div class="mt-auto p-4 bg-stone-100 rounded-2xl border border-stone-200">
+            <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">Progreso Ejercicios</p>
+            <div class="h-2 w-full bg-stone-200 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%">
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-6 md:p-12 w-full">
+
+        <!-- SECTION: PORTADA -->
+        <section id="portada" class="max-w-4xl mx-auto transition-opacity duration-300">
+            <div class="bg-white rounded-[32px] p-8 md:p-16 shadow-sm border border-stone-200 relative overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full -mr-32 -mt-32 blur-3xl opacity-50">
+                </div>
+
+                <div class="relative">
+                    <span
+                        class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                        Proyecto Final
+                    </span>
+                    <h2 class="text-5xl md:text-7xl font-bold text-stone-900 mb-8 tracking-tight">
+                        Teoría del <span class="text-emerald-600 italic">Binomio</span>
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
+                        <div>
+                            <h3
+                                class="text-sm font-bold text-stone-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                <i data-lucide="users" class="w-4 h-4"></i> Integrantes del Equipo
+                            </h3>
+                            <div class="space-y-4">
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-500">
+                                        AA</div>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Alvaro Gael Anguiano Vega</p>
+                                        <p class="text-xs text-stone-500 font-medium">Integrante</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-500">
+                                        JL</div>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Juan Jose Larios Ochoa</p>
+                                        <p class="text-xs text-stone-500 font-medium">Integrante</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-500">
+                                        EA</div>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Erick Abdiel Arrollo Juarez</p>
+                                        <p class="text-xs text-stone-500 font-medium">Integrante</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-500">
+                                        EO</div>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Elías Josué Ochoa Arreguin</p>
+                                        <p class="text-xs text-stone-500 font-medium">Integrante</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-500">
+                                        AL</div>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Axel Moisés López Paredes</p>
+                                        <p class="text-xs text-stone-500 font-medium">Integrante</p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="flex items-center gap-4 p-4 rounded-2xl bg-stone-50 border border-stone-100">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center font-bold text-stone-500">
+                                        JR</div>
+                                    <div>
+                                        <p class="font-bold text-stone-900">Jesús Alejandro Ríos Morales</p>
+                                        <p class="text-xs text-stone-500 font-medium">Integrante</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex flex-col justify-center items-center p-8 bg-stone-900 rounded-[24px] text-white">
+                            <i data-lucide="award" class="w-12 h-12 text-emerald-400 mb-4"></i>
+                            <p class="text-center text-stone-400 text-sm mb-6">Evaluación de Matemáticas</p>
+                            <button onclick="showSection('introduccion')"
+                                class="w-full py-4 bg-emerald-500 hover:bg-emerald-400 transition-colors rounded-xl font-bold flex items-center justify-center gap-2">
+                                Comenzar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: INTRODUCCION -->
+        <section id="introduccion" class="hidden-section max-w-4xl mx-auto space-y-8">
+            <div class="space-y-4">
+                <h2 class="text-4xl font-bold text-stone-900 tracking-tight">Historia del Teorema</h2>
+                <div class="h-1 w-20 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div
+                    class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm leading-relaxed text-stone-600 space-y-4">
+                    <p>El teorema del binomio es una fórmula que permite expandir una potencia de la suma de dos
+                        términos. Aunque hoy lo conocemos como el "Binomio de Newton", su historia se remonta siglos
+                        atrás.</p>
+                    <p>Matemáticos árabes como <span class="font-bold text-stone-900">Al-Karaji</span> (c. 1000) ya
+                        conocían la construcción del triángulo de coeficientes, que más tarde sería popularizado por
+                        <span class="font-bold text-stone-900">Blaise Pascal</span> en Occidente.
+                    </p>
+                </div>
+                <div class="bg-emerald-900 p-8 rounded-3xl text-emerald-50 flex flex-col justify-center">
+                    <blockquote class="text-xl italic font-serif border-l-4 border-emerald-400 pl-6 py-2">
+                        "En 1665, Isaac Newton generalizó la fórmula para exponentes que no fueran números enteros
+                        positivos, abriendo la puerta al cálculo infinitesimal."
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm">
+                <h3 class="font-bold text-stone-900 mb-4 flex items-center gap-2">
+                    <i data-lucide="history" class="w-5 h-5 text-emerald-500"></i> Línea de Tiempo
+                </h3>
+                <div
+                    class="space-y-6 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-0.5 before:bg-stone-100">
+                    <div class="relative pl-10">
+                        <div
+                            class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-emerald-500 border-4 border-white shadow-sm">
+                        </div>
+                        <p class="text-xs font-bold text-emerald-600 uppercase mb-1">Siglo X</p>
+                        <p class="font-bold text-stone-900">Al-Karaji (Persia)</p>
+                        <p class="text-sm text-stone-500">Primera descripción documentada del triángulo de coeficientes
+                            binomiales y su ley de formación.</p>
+                    </div>
+                    <div class="relative pl-10">
+                        <div
+                            class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-stone-300 border-4 border-white shadow-sm">
+                        </div>
+                        <p class="text-xs font-bold text-stone-400 uppercase mb-1">1261</p>
+                        <p class="font-bold text-stone-900">Yang Hui (China)</p>
+                        <p class="text-sm text-stone-500">Presenta el triángulo en su obra, atribuyéndolo a Jia Xian
+                            (siglo XI).</p>
+                    </div>
+                    <div class="relative pl-10">
+                        <div
+                            class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-stone-300 border-4 border-white shadow-sm">
+                        </div>
+                        <p class="text-xs font-bold text-stone-400 uppercase mb-1">1654</p>
+                        <p class="font-bold text-stone-900">Blaise Pascal (Francia)</p>
+                        <p class="text-sm text-stone-500">Publica el "Traité du triangle arithmétique", formalizando sus
+                            propiedades probabilísticas.</p>
+                    </div>
+                    <div class="relative pl-10">
+                        <div
+                            class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-stone-300 border-4 border-white shadow-sm">
+                        </div>
+                        <p class="text-xs font-bold text-stone-400 uppercase mb-1">1665</p>
+                        <p class="font-bold text-stone-900">Isaac Newton (Inglaterra)</p>
+                        <p class="text-sm text-stone-500">Generalización del teorema para exponentes negativos y
+                            fraccionarios mediante series infinitas.</p>
+                    </div>
+                    <div class="relative pl-10">
+                        <div
+                            class="absolute left-0 top-1.5 w-6 h-6 rounded-full bg-stone-300 border-4 border-white shadow-sm">
+                        </div>
+                        <p class="text-xs font-bold text-stone-400 uppercase mb-1">Siglo XVIII</p>
+                        <p class="font-bold text-stone-900">Leonhard Euler</p>
+                        <p class="text-sm text-stone-500">Introduce la notación moderna de los coeficientes binomiales.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: TEORIA -->
+        <section id="teoria" class="hidden-section max-w-4xl mx-auto space-y-8">
+            <div class="bg-stone-900 text-white p-12 rounded-[40px] shadow-2xl relative overflow-hidden">
+                <h2 class="text-3xl font-bold mb-8 flex items-center gap-4 relative z-10">
+                    <span class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center text-white">
+                        <i data-lucide="book-open" class="w-6 h-6"></i>
+                    </span>
+                    La Fórmula General
+                </h2>
+
+                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 mb-8 relative z-10">
+                    <p class="text-emerald-400 font-mono text-sm mb-4 uppercase tracking-widest">Teorema del Binomio</p>
+                    <div class="math-display text-2xl text-center">
+                        $$ (a + b)^n = \sum_{k=0}^n \binom{n}{k} a^{n-k} b^k $$
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-emerald-400">Componentes:</h4>
+                        <ul class="space-y-3 text-stone-400 text-sm">
+                            <li class="flex gap-3">
+                                <span class="text-emerald-500 font-bold">n:</span>
+                                <span>El exponente de la potencia.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-emerald-500 font-bold">k:</span>
+                                <span>El índice de la sumatoria (de 0 a n).</span>
+                            </li>
+                            <li class="flex gap-3 items-center">
+                                <span class="text-emerald-500 font-bold mr-2">$$ \binom{n}{k} $$:</span>
+                                <span>Coeficiente binomial (n sobre k).</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-emerald-500/10 p-6 rounded-2xl border border-emerald-500/20">
+                        <p class="text-xs font-bold text-emerald-400 uppercase mb-2">Término General</p>
+                        <p class="text-stone-400 text-xs mb-4">Permite hallar cualquier término sin expandir todo el
+                            binomio:</p>
+                        <div class="math-display text-center">
+                            $$ T_{k+1} = \binom{n}{k} a^{n-k} b^k $$
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm">
+                    <h3 class="font-bold text-stone-900 mb-6 flex items-center gap-2">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500"></i> Propiedades Clave
+                    </h3>
+                    <ul class="space-y-4 text-sm text-stone-600">
+                        <li class="p-4 bg-stone-50 rounded-xl border border-stone-100">
+                            <p class="font-bold text-stone-900 mb-1">Simetría</p>
+                            <div>$$ \binom{n}{k} = \binom{n}{n-k} $$</div>
+                            <p class="mt-2 text-xs">Los coeficientes al principio y al final son iguales.</p>
+                        </li>
+                        <li class="p-4 bg-stone-50 rounded-xl border border-stone-100">
+                            <p class="font-bold text-stone-900 mb-1">Suma de Coeficientes</p>
+                            <div>$$ \sum_{k=0}^n \binom{n}{k} = 2^n $$</div>
+                            <p class="mt-2 text-xs">La suma de todos los coeficientes de la fila n es 2 elevado a n.</p>
+                        </li>
+                        <li class="p-4 bg-stone-50 rounded-xl border border-stone-100">
+                            <p class="font-bold text-stone-900 mb-1">Número de Términos</p>
+                            <p class="text-xs">La expansión de $$ (a+b)^n $$ siempre tiene $$ n+1 $$ términos.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm">
+                    <h3 class="font-bold text-stone-900 mb-6">Triángulo de Pascal</h3>
+                    <div class="flex flex-col items-center gap-2 font-mono text-stone-600">
+                        <div class="flex gap-4 p-2 bg-stone-50 rounded-lg">1</div>
+                        <div class="flex gap-4 p-2 bg-stone-50 rounded-lg">1 1</div>
+                        <div class="flex gap-4 p-2 bg-stone-50 rounded-lg">1 2 1</div>
+                        <div class="flex gap-4 p-2 bg-stone-50 rounded-lg">1 3 3 1</div>
+                        <div class="flex gap-4 p-2 bg-stone-50 rounded-lg">1 4 6 4 1</div>
+                        <div class="flex gap-4 p-2 bg-stone-50 rounded-lg">1 5 10 10 5 1</div>
+                        <p class="text-xs text-stone-400 mt-4 italic text-center">Cada número es la suma de los dos que
+                            tiene encima. Los números de cada fila corresponden a los coeficientes binomiales.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: PRACTICA -->
+        <section id="practica" class="hidden-section max-w-4xl mx-auto space-y-8">
+            <div class="space-y-4">
+                <h2 class="text-4xl font-bold text-stone-900 tracking-tight">Ejemplos Prácticos</h2>
+                <p class="text-stone-500">Observa cómo se expanden los binomios paso a paso.</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Ejemplo 1 -->
+                <div
+                    class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm group hover:border-emerald-500 transition-colors">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-stone-900">Binomio al Cuadrado</h3>
+                        <span class="px-3 py-1 bg-stone-100 rounded-full text-xs font-bold text-stone-500">(x +
+                            y)²</span>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-center text-lg">
+                        $$ x^2 + 2xy + y^2 $$
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            1</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            2</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            3</span>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 2 -->
+                <div
+                    class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm group hover:border-emerald-500 transition-colors">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-stone-900">Binomio al Cubo</h3>
+                        <span class="px-3 py-1 bg-stone-100 rounded-full text-xs font-bold text-stone-500">(x +
+                            y)³</span>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-center text-lg">
+                        $$ x^3 + 3x^2y + 3xy^2 + y^3 $$
+                    </div>
+                    <div class="mt-4 flex gap-2">
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            1</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            2</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            3</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            4</span>
+                    </div>
+                </div>
+
+                <!-- Ejemplo 3 -->
+                <div
+                    class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm group hover:border-emerald-500 transition-colors">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-stone-900">Potencia Cuarta</h3>
+                        <span class="px-3 py-1 bg-stone-100 rounded-full text-xs font-bold text-stone-500">(x +
+                            y)⁴</span>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-center text-lg">
+                        $$ x^4 + 4x^3y + 6x^2y^2 + 4xy^3 + y^4 $$
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            1</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            2</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            3</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            4</span>
+                        <span class="text-[10px] px-2 py-1 bg-stone-100 text-stone-400 rounded-md font-mono">Término
+                            5</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: EJERCICIOS -->
+        <section id="ejercicios" class="hidden-section max-w-2xl mx-auto">
+            <div class="bg-white p-8 md:p-12 rounded-[40px] shadow-xl border border-stone-200">
+                <div class="flex justify-between items-center mb-12">
+                    <h2 class="text-2xl font-bold text-stone-900">Desafío Final</h2>
+                    <div class="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-2xl font-bold">
+                        <i data-lucide="award" class="w-4 h-4"></i> <span id="quiz-score">0 / 0</span>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <p id="quiz-counter" class="text-xs font-bold text-emerald-500 uppercase tracking-widest">
+                            Pregunta 1</p>
+                        <h3 id="quiz-question" class="text-xl font-bold text-stone-900 leading-snug">
+                            Cargando pregunta...
+                        </h3>
+                    </div>
+
+                    <div id="quiz-options" class="grid grid-cols-1 gap-4">
+                        <!-- Options injected by JS -->
+                    </div>
+
+                    <div id="quiz-explanation"
+                        class="hidden p-6 bg-stone-900 rounded-2xl text-stone-300 text-sm leading-relaxed mt-6">
+                        <p class="font-bold text-white mb-2 flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-4 h-4 text-emerald-400"></i> Explicación:
+                        </p>
+                        <p id="explanation-text"></p>
+
+                        <button id="quiz-next-btn" onclick="nextQuestion()"
+                            class="mt-6 w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors">
+                            Siguiente Pregunta <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div id="quiz-restart-container" class="flex justify-center pt-8">
+                        <button onclick="initQuiz()"
+                            class="text-stone-400 hover:text-stone-600 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                            <i data-lucide="refresh-ccw" class="w-3 h-3"></i> Reiniciar Desafío
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        // Inicializar iconos
+        lucide.createIcons();
+
+        // Renderizar Matemáticas al cargar
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: '$$', right: '$$', display: true },
+                    { left: '$', right: '$', display: false },
+                    { left: '\\(', right: '\\)', display: false },
+                    { left: '\\[', right: '\\]', display: true }
+                ],
+                throwOnError: false
+            });
+        });
+
+        // --- NAVEGACIÓN ---
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            const sections = ['portada', 'introduccion', 'teoria', 'practica', 'ejercicios'];
+            sections.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+
+                // Resetear estilos de botones del menú
+                const btn = document.getElementById('nav-' + id);
+                btn.className = 'nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-stone-500 hover:bg-stone-200 hover:text-stone-900';
+                const icon = btn.querySelector('svg') || btn.querySelector('i');
+                if (icon) icon.classList.remove('text-emerald-400');
+            });
+
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Aplicar estilo activo al botón seleccionado
+            const activeBtn = document.getElementById('nav-' + sectionId);
+            activeBtn.className = 'nav-item flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-stone-900 text-white shadow-lg shadow-stone-200';
+            const activeIcon = activeBtn.querySelector('svg') || activeBtn.querySelector('i');
+            if (activeIcon) activeIcon.classList.add('text-emerald-400');
+
+            // Si entra a ejercicios, inicializar el quiz
+            if (sectionId === 'ejercicios') {
+                initQuiz();
+            }
+        }
+
+        // --- LÓGICA DEL CUESTIONARIO (EJERCICIOS ALEATORIOS) ---
+        const EXERCISES_DATA = [
+            {
+                question: "¿Cuál es el coeficiente de x⁴ en la expansión de (x + 2)⁶?",
+                options: ["15", "30", "60", "120"],
+                correctAnswer: 2,
+                explanation: "El término es C(6,4) * x⁴ * 2². C(6,4) = 15 y 2² = 4. Entonces 15 * 4 = 60."
+            },
+            {
+                question: "¿Cuál es la suma de todos los coeficientes en la expansión de (3x - 2y)⁴?",
+                options: ["1", "5", "16", "81"],
+                correctAnswer: 0,
+                explanation: "Para hallar la suma de coeficientes, sustituimos las variables por 1: (3(1) - 2(1))⁴ = (1)⁴ = 1."
+            },
+            {
+                question: "¿Cuál es el término independiente de x en la expansión de (x + 1/x)⁴?",
+                options: ["2", "4", "6", "8"],
+                correctAnswer: 2,
+                explanation: "El término independiente ocurre cuando los exponentes de x se cancelan. En (x + 1/x)⁴, es el término central: C(4,2) * x² * (1/x)² = 6."
+            },
+            {
+                question: "¿Cuál es el valor del coeficiente binomial C(7, 3)?",
+                options: ["21", "35", "42", "70"],
+                correctAnswer: 1,
+                explanation: "C(7,3) = 7! / (3! * 4!) = (7 * 6 * 5) / (3 * 2 * 1) = 35."
+            },
+            {
+                question: "En la expansión de (a + b)ⁿ, ¿qué sucede con los exponentes de 'b'?",
+                options: ["Aumentan de 0 a n", "Disminuyen de n a 0", "Se mantienen constantes", "Son siempre iguales a n"],
+                correctAnswer: 0,
+                explanation: "En cada término sucesivo de la expansión, el exponente de 'a' disminuye y el de 'b' aumenta de 0 hasta n."
+            },
+            {
+                question: "¿Cuál es el tercer término de la expansión de (2x + 1)³?",
+                options: ["6x²", "12x", "6x", "1"],
+                correctAnswer: 2,
+                explanation: "El tercer término (k=2) es C(3,2) * (2x)¹ * (1)² = 3 * 2x * 1 = 6x."
+            },
+            {
+                question: "¿Qué propiedad indica que C(n, k) es igual a C(n, n-k)?",
+                options: ["Transitividad", "Simetría", "Asociatividad", "Conmutatividad"],
+                correctAnswer: 1,
+                explanation: "Esta es la propiedad de simetría de los coeficientes binomiales, visible en el Triángulo de Pascal."
+            },
+            {
+                question: "Si n = 10, ¿cuántos términos tendrá la expansión del binomio?",
+                options: ["9", "10", "11", "12"],
+                correctAnswer: 2,
+                explanation: "El número de términos es siempre n + 1. Si n = 10, hay 11 términos."
+            }
+        ];
+
+        let shuffledExercises = [];
+        let currentExerciseIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        function shuffleArray(array) {
+            const newArr = [...array];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        }
+
+        function initQuiz() {
+            shuffledExercises = shuffleArray(EXERCISES_DATA);
+            currentExerciseIndex = 0;
+            score = 0;
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            hasAnswered = false;
+            const currentQ = shuffledExercises[currentExerciseIndex];
+
+            document.getElementById('quiz-question').innerText = currentQ.question;
+            document.getElementById('quiz-counter').innerText = `Pregunta ${currentExerciseIndex + 1}`;
+            document.getElementById('quiz-score').innerText = `${score} / ${shuffledExercises.length}`;
+
+            // Actualizar barra de progreso
+            const progressPercent = (currentExerciseIndex / shuffledExercises.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full p-6 rounded-2xl text-left font-bold transition-all duration-200 border-2 bg-stone-50 border-stone-100 hover:border-emerald-500 hover:bg-white flex justify-between items-center';
+                btn.innerHTML = `<span>${opt}</span> <i data-lucide="check-circle-2" class="w-5 h-5 hidden check-icon"></i>`;
+                btn.onclick = () => handleAnswer(index, btn, currentQ);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-explanation').style.display = 'none';
+            document.getElementById('quiz-restart-container').style.display = 'flex';
+
+            lucide.createIcons();
+        }
+
+        function handleAnswer(selectedIndex, btnElement, questionData) {
+            if (hasAnswered) return;
+            hasAnswered = true;
+            document.getElementById('quiz-restart-container').style.display = 'none';
+
+            const buttons = document.getElementById('quiz-options').children;
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                buttons[i].classList.add('opacity-50');
+
+                if (i === questionData.correctAnswer) {
+                    buttons[i].className = 'w-full p-6 rounded-2xl text-left font-bold transition-all duration-200 border-2 bg-emerald-50 border-emerald-500 text-emerald-700 flex justify-between items-center';
+                    buttons[i].querySelector('.check-icon').classList.remove('hidden');
+                }
+            }
+
+            if (selectedIndex === questionData.correctAnswer) {
+                score++;
+                document.getElementById('quiz-score').innerText = `${score} / ${shuffledExercises.length}`;
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#10b981', '#34d399', '#059669']
+                });
+            } else {
+                btnElement.className = 'w-full p-6 rounded-2xl text-left font-bold transition-all duration-200 border-2 bg-red-50 border-red-500 text-red-700 flex justify-between items-center';
+            }
+
+            document.getElementById('explanation-text').innerText = questionData.explanation;
+            document.getElementById('quiz-explanation').style.display = 'block';
+
+            const nextBtn = document.getElementById('quiz-next-btn');
+            if (currentExerciseIndex < shuffledExercises.length - 1) {
+                nextBtn.innerHTML = `Siguiente Pregunta <i data-lucide="chevron-right" class="w-4 h-4"></i>`;
+            } else {
+                nextBtn.innerHTML = `Finalizar <i data-lucide="check" class="w-4 h-4"></i>`;
+                // Llenar barra al 100% al finalizar
+                document.getElementById('progress-bar').style.width = `100%`;
+            }
+            lucide.createIcons();
+        }
+
+        function nextQuestion() {
+            if (currentExerciseIndex < shuffledExercises.length - 1) {
+                currentExerciseIndex++;
+                renderQuiz();
+            } else {
+                initQuiz(); // Reiniciar al terminar
+            }
+        }
+
+        // Iniciar mostrando la portada
+        showSection('portada');
+
+    </script>
+</body>
+
+</html>
