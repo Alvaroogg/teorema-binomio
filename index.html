@@ -45,10 +45,8 @@
 
     <!-- Sidebar Navigation -->
     <aside class="w-full md:w-72 bg-white border-r border-stone-200 p-6 flex flex-col gap-8 z-10 shrink-0">
-        <div class="flex items-center gap-3 px-2">
-            <div class="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center text-white shadow-inner">
-                <i data-lucide="calculator"></i>
-            </div>
+        <div class="flex items-center gap-4 px-2">
+            <img src="./assets/logo.png" alt="Logo UCOL" class="w-16 h-16 object-contain drop-shadow-md">
             <div>
                 <h1 class="font-bold text-stone-900 leading-tight">Binomio</h1>
                 <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold">Teoría & Práctica</p>
@@ -181,14 +179,9 @@
                             </div>
                         </div>
 
-                        <div
-                            class="flex flex-col justify-center items-center p-8 bg-stone-900 rounded-[24px] text-white">
-                            <i data-lucide="award" class="w-12 h-12 text-emerald-400 mb-4"></i>
-                            <p class="text-center text-stone-400 text-sm mb-6">Evaluación de Matemáticas</p>
-                            <button onclick="showSection('introduccion')"
-                                class="w-full py-4 bg-emerald-500 hover:bg-emerald-400 transition-colors rounded-xl font-bold flex items-center justify-center gap-2">
-                                Comenzar <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </button>
+                        <div class="flex items-center justify-center w-full h-full mt-8 md:mt-0 p-4 md:p-8">
+                            <img src="./assets/math_art.png" alt="Ilustración del Teorema del Binomio"
+                                class="w-full max-w-sm md:max-w-md h-auto object-contain rounded-3xl shadow-2xl hover:scale-105 transition-transform duration-700">
                         </div>
                     </div>
                 </div>
@@ -437,6 +430,24 @@
                             5</span>
                     </div>
                 </div>
+
+                <!-- Ejemplo 4 -->
+                <div
+                    class="bg-white p-8 rounded-3xl border border-stone-200 shadow-sm group hover:border-emerald-500 transition-colors">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-stone-900">Uso de la Fórmula General</h3>
+                        <span class="px-3 py-1 bg-stone-100 rounded-full text-xs font-bold text-stone-500">Tercer
+                            término de (a + b)⁵</span>
+                    </div>
+                    <div class="bg-stone-50 p-6 rounded-2xl border border-stone-100 text-center text-lg">
+                        $$ T_3 = \binom{5}{2} a^{5-2} b^2 = 10a^3b^2 $$
+                    </div>
+                    <div class="mt-4 flex justify-center">
+                        <span class="text-xs text-stone-500 bg-stone-100 px-4 py-2 rounded-lg font-medium">
+                            Para el tercer término, $k = 2$. Así que el coeficiente es $\binom{5}{2} = 10$.
+                        </span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -535,74 +546,45 @@
             }
         }
 
-        // --- LÓGICA DEL CUESTIONARIO (EJERCICIOS ALEATORIOS) ---
+        // --- LÓGICA DEL CUESTIONARIO (FIJO, 5 PREGUNTAS INTRODUCTORIAS) ---
         const EXERCISES_DATA = [
             {
-                question: "¿Cuál es el coeficiente de x⁴ en la expansión de (x + 2)⁶?",
-                options: ["15", "30", "60", "120"],
+                question: "¿Cuál es el desarrollo correcto de (x + y)²?",
+                options: ["x² + y²", "x² + xy + y²", "x² + 2xy + y²", "2x + 2y"],
                 correctAnswer: 2,
-                explanation: "El término es C(6,4) * x⁴ * 2². C(6,4) = 15 y 2² = 4. Entonces 15 * 4 = 60."
+                explanation: "El binomio al cuadrado es el primer término al cuadrado, más el doble producto del primero por el segundo, más el segundo al cuadrado."
             },
             {
-                question: "¿Cuál es la suma de todos los coeficientes en la expansión de (3x - 2y)⁴?",
-                options: ["1", "5", "16", "81"],
-                correctAnswer: 0,
-                explanation: "Para hallar la suma de coeficientes, sustituimos las variables por 1: (3(1) - 2(1))⁴ = (1)⁴ = 1."
-            },
-            {
-                question: "¿Cuál es el término independiente de x en la expansión de (x + 1/x)⁴?",
-                options: ["2", "4", "6", "8"],
+                question: "¿Cuántos términos tiene la expansión de (x + y)³?",
+                options: ["2", "3", "4", "5"],
                 correctAnswer: 2,
-                explanation: "El término independiente ocurre cuando los exponentes de x se cancelan. En (x + 1/x)⁴, es el término central: C(4,2) * x² * (1/x)² = 6."
+                explanation: "El número de términos siempre es la potencia + 1 (n + 1). Si n = 3, entonces hay 3 + 1 = 4 términos."
             },
             {
-                question: "¿Cuál es el valor del coeficiente binomial C(7, 3)?",
-                options: ["21", "35", "42", "70"],
-                correctAnswer: 1,
-                explanation: "C(7,3) = 7! / (3! * 4!) = (7 * 6 * 5) / (3 * 2 * 1) = 35."
-            },
-            {
-                question: "En la expansión de (a + b)ⁿ, ¿qué sucede con los exponentes de 'b'?",
+                question: "En la expansión de (a + b)ⁿ, ¿qué sucede con los exponentes de 'a'?",
                 options: ["Aumentan de 0 a n", "Disminuyen de n a 0", "Se mantienen constantes", "Son siempre iguales a n"],
-                correctAnswer: 0,
-                explanation: "En cada término sucesivo de la expansión, el exponente de 'a' disminuye y el de 'b' aumenta de 0 hasta n."
-            },
-            {
-                question: "¿Cuál es el tercer término de la expansión de (2x + 1)³?",
-                options: ["6x²", "12x", "6x", "1"],
-                correctAnswer: 2,
-                explanation: "El tercer término (k=2) es C(3,2) * (2x)¹ * (1)² = 3 * 2x * 1 = 6x."
-            },
-            {
-                question: "¿Qué propiedad indica que C(n, k) es igual a C(n, n-k)?",
-                options: ["Transitividad", "Simetría", "Asociatividad", "Conmutatividad"],
                 correctAnswer: 1,
-                explanation: "Esta es la propiedad de simetría de los coeficientes binomiales, visible en el Triángulo de Pascal."
+                explanation: "En la fórmula del binomio, el exponente del primer término ('a') comienza en n y disminuye hasta 0 paso a paso."
             },
             {
-                question: "Si n = 10, ¿cuántos términos tendrá la expansión del binomio?",
-                options: ["9", "10", "11", "12"],
+                question: "Si el exponente de un binomio es 5 (n = 5), ¿cuántos términos tendrá el resultado?",
+                options: ["4", "5", "6", "7"],
                 correctAnswer: 2,
-                explanation: "El número de términos es siempre n + 1. Si n = 10, hay 11 términos."
+                explanation: "El número de términos es n + 1. Si n = 5, el resultado siempre tendrá 5 + 1 = 6 términos."
+            },
+            {
+                question: "¿Cuál es el primer término de la expansión de (x + y)³?",
+                options: ["x²", "x³", "3x²y", "y³"],
+                correctAnswer: 1,
+                explanation: "El primer término siempre es el primer elemento elevado a la potencia n. En este caso, x³."
             }
         ];
 
-        let shuffledExercises = [];
         let currentExerciseIndex = 0;
         let score = 0;
         let hasAnswered = false;
 
-        function shuffleArray(array) {
-            const newArr = [...array];
-            for (let i = newArr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-            }
-            return newArr;
-        }
-
         function initQuiz() {
-            shuffledExercises = shuffleArray(EXERCISES_DATA);
             currentExerciseIndex = 0;
             score = 0;
             renderQuiz();
@@ -610,14 +592,14 @@
 
         function renderQuiz() {
             hasAnswered = false;
-            const currentQ = shuffledExercises[currentExerciseIndex];
+            const currentQ = EXERCISES_DATA[currentExerciseIndex];
 
             document.getElementById('quiz-question').innerText = currentQ.question;
             document.getElementById('quiz-counter').innerText = `Pregunta ${currentExerciseIndex + 1}`;
-            document.getElementById('quiz-score').innerText = `${score} / ${shuffledExercises.length}`;
+            document.getElementById('quiz-score').innerText = `${score} / ${EXERCISES_DATA.length}`;
 
             // Actualizar barra de progreso
-            const progressPercent = (currentExerciseIndex / shuffledExercises.length) * 100;
+            const progressPercent = (currentExerciseIndex / EXERCISES_DATA.length) * 100;
             document.getElementById('progress-bar').style.width = `${progressPercent}%`;
 
             const optionsContainer = document.getElementById('quiz-options');
@@ -656,7 +638,7 @@
 
             if (selectedIndex === questionData.correctAnswer) {
                 score++;
-                document.getElementById('quiz-score').innerText = `${score} / ${shuffledExercises.length}`;
+                document.getElementById('quiz-score').innerText = `${score} / ${EXERCISES_DATA.length}`;
                 confetti({
                     particleCount: 100,
                     spread: 70,
@@ -671,7 +653,7 @@
             document.getElementById('quiz-explanation').style.display = 'block';
 
             const nextBtn = document.getElementById('quiz-next-btn');
-            if (currentExerciseIndex < shuffledExercises.length - 1) {
+            if (currentExerciseIndex < EXERCISES_DATA.length - 1) {
                 nextBtn.innerHTML = `Siguiente Pregunta <i data-lucide="chevron-right" class="w-4 h-4"></i>`;
             } else {
                 nextBtn.innerHTML = `Finalizar <i data-lucide="check" class="w-4 h-4"></i>`;
@@ -682,7 +664,7 @@
         }
 
         function nextQuestion() {
-            if (currentExerciseIndex < shuffledExercises.length - 1) {
+            if (currentExerciseIndex < EXERCISES_DATA.length - 1) {
                 currentExerciseIndex++;
                 renderQuiz();
             } else {
